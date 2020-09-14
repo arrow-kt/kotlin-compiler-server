@@ -1,0 +1,15 @@
+name: Build
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build with Gradle
+      run: |
+        ./gradlew build
+        ./gradlew clean buildLambda -DarrowVersion=0.11.0 # TODO
