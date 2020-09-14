@@ -54,7 +54,7 @@ curl -X POST \
 }'
 ```
 
-### Get the current version
+### Get the current versions
 
 ```shell script
 curl -X GET http://localhost:8080/versions
