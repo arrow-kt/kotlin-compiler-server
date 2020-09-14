@@ -10,4 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build with Gradle
-      run: ./gradlew build
+      run: |
+        ./gradlew build
+        ./gradlew clean buildLambda -DarrowVersion=0.11.0 # TODO
