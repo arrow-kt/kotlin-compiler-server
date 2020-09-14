@@ -22,4 +22,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_CLOUDFRONT_ID: ${{ secrets.AWS_CLOUDFRONT_ID }}
-      run: aws s3 cp lambdaDistributions/*.zip s3://$S3_BUCKET/kotlin-compiler-server/
+      run: |
+        aws s3 cp lambdaDistributions/*.zip s3://$S3_BUCKET/kotlin-compiler-server/
+        # TODO: my-function and hard-coded version
+        # aws lambda update-function-code --function-name my-function --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/playground-server-0.11.0.zip
