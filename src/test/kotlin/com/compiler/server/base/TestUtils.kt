@@ -12,22 +12,3 @@ internal fun Map<String, List<ErrorDescriptor>>.assertNoErrors() {
           renderErrorDescriptors(filterOnlyErrors)
     }
 }
-
-internal fun errorContains(highlights: Map<String, List<ErrorDescriptor>>, message: String) {
-    Assertions.assertTrue(highlights.values.flatten().map { it.message }.any { it.contains(message) }) {
-        "Haven't found diagnostic with message $message, actual diagnostics:\n" +
-                "\n" +
-          renderErrorDescriptors(highlights.values.flatten())
-    }
-    Assertions.assertTrue(highlights.values.flatten().map { it.severity }.any { it == ProjectSeveriry.ERROR })
-}
-
-internal fun warningContains(highlights: Map<String, List<ErrorDescriptor>>, message: String) {
-    Assertions.assertTrue(highlights.values.flatten().map { it.message }.any { it.contains(message) }) {
-        "Haven't found diagnostic with message $message, actual diagnostics:\n" +
-                "\n" +
-          renderErrorDescriptors(highlights.values.flatten())
-    }
-    Assertions.assertTrue(highlights.values.flatten().map { it.className }.any { it == "WARNING" })
-    Assertions.assertTrue(highlights.values.flatten().map { it.severity }.any { it == ProjectSeveriry.WARNING })
-}

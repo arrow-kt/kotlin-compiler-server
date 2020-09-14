@@ -26,19 +26,6 @@ class KotlinFeatureSince140 : BaseExecutorTest() {
   }
 
   @Test
-  fun `new inference works in 140`() {
-    highlight(
-      code = """
-        val rulesMap: Map<String, (String?) -> Boolean> = mapOf(
-            "weak" to { it != null },
-            "medium" to { !it.isNullOrBlank() },
-            "strong" to { it != null && "^[a-zA-Z0-9]+${'$'}".toRegex().matches(it) }
-        )
-                """.trimIndent()
-    ).assertNoErrors()
-  }
-
-  @Test
   fun `isInstance in 140`() {
     run(
       code = """

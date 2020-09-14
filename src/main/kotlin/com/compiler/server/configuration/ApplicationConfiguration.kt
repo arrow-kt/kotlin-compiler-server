@@ -1,5 +1,6 @@
 package com.compiler.server.configuration
 
+import com.compiler.server.model.bean.ArrowVersionInfo
 import com.compiler.server.model.bean.LibrariesFile
 import com.compiler.server.model.bean.VersionInfo
 import org.springframework.beans.factory.annotation.Value
@@ -15,6 +16,7 @@ import java.io.File
 @EnableConfigurationProperties(value = [LibrariesFolderProperties::class])
 class ApplicationConfiguration(
   @Value("\${kotlin.version}") private val version: String,
+  @Value("\${arrow.version}") private val arrowVersion: String,
   private val librariesFolderProperties: LibrariesFolderProperties
 ) : WebMvcConfigurer {
   override fun addFormatters(registry: FormatterRegistry) {
@@ -24,18 +26,23 @@ class ApplicationConfiguration(
   @Bean
   fun versionInfo() = VersionInfo(
     version = version.substringBefore("-"),
-    stdlibVersion = version
+    stdlibVersion = version,
+    arrowVersion = arrowVersion
+  )
+
+  @Bean
+  fun arrowVersionInfo() = ArrowVersionInfo(
+    version = arrowVersion,
+    supportedKotlinVersions = listOf(version.substringBefore("-"))
   )
 
   @Bean
   fun librariesFiles() = LibrariesFile(
-    File(librariesFolderProperties.jvm),
-    File(librariesFolderProperties.js)
+    File(librariesFolderProperties.jvm)
   )
 }
 
 @ConfigurationProperties(prefix = "libraries.folder")
 class LibrariesFolderProperties {
   lateinit var jvm: String
-  lateinit var js: String
 }

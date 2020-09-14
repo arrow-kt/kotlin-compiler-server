@@ -3,9 +3,12 @@ package com.compiler.server.compiler.components
 import com.compiler.server.executor.CommandLineArgument
 import com.compiler.server.executor.ExecutorMessages
 import com.compiler.server.executor.JavaExecutor
-import com.compiler.server.model.*
+import com.compiler.server.model.Analysis
+import com.compiler.server.model.ExecutionResult
+import com.compiler.server.model.OutputDirectory
+import com.compiler.server.model.ProgramOutput
 import com.compiler.server.model.bean.LibrariesFile
-import executors.JUnitExecutors
+import com.compiler.server.model.toExceptionDescriptor
 import executors.JavaRunnerExecutor
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.codegen.ClassBuilderFactories
@@ -45,14 +48,6 @@ class KotlinCompiler(
     }
   }
 
-  fun test(files: List<KtFile>, coreEnvironment: KotlinCoreEnvironment): ExecutionResult {
-    return execute(files, coreEnvironment) { output, _ ->
-      val mainClass = JUnitExecutors::class.java.name
-      javaExecutor.execute(argsFrom(mainClass, output, listOf(output.path.toString())))
-        .asJUnitExecutionResult()
-    }
-  }
-
   private fun compile(files: List<KtFile>, analysis: Analysis, coreEnvironment: KotlinCoreEnvironment): Compiled {
     val generationState = generationStateFor(files, analysis, coreEnvironment)
     KotlinCodegenFacade.compileCorrectFiles(generationState)
@@ -70,8 +65,7 @@ class KotlinCompiler(
     return try {
       val (errors, analysis) = errorAnalyzer.errorsFrom(
         files = files,
-        coreEnvironment = coreEnvironment,
-        withImports = true
+        coreEnvironment = coreEnvironment
       )
       return if (errorAnalyzer.isOnlyWarnings(errors)) {
         val compilation = compile(files, analysis, coreEnvironment)
@@ -139,7 +133,6 @@ class KotlinCompiler(
       arguments = args
     ).toList()
   }
-
 
   private fun mainClassFrom(bindingContext: BindingContext, files: List<KtFile>): String? {
     val mainFunctionDetector = MainFunctionDetector(bindingContext, LanguageVersionSettingsImpl.DEFAULT)

@@ -73,12 +73,4 @@ class ExceptionInProgramTest : BaseExecutorTest() {
       contains = "java.lang.AssertionError"
     )
   }
-
-  @Test
-  fun `validate kotlin-test available`() {
-    runWithException(
-      code = "import kotlin.test.assertTrue\n\nfun main(args: Array<String>) { assertTrue(false) }",
-      contains = "java.lang.AssertionError"
-    )
-  }
 }

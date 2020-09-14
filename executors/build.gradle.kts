@@ -4,11 +4,11 @@ plugins {
   kotlin("jvm")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-
 dependencies {
-  implementation("junit:junit:4.12")
+  implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 tasks.withType<Jar>().getByName("jar") {
   destinationDirectory.set(File("../$kotlinVersion"))

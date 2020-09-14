@@ -22,23 +22,4 @@ class CommandLineArgumentsTest : BaseExecutorTest() {
       contains = "alex1\nalex2\n"
     )
   }
-
-  @Test
-  fun `command line arguments js test`() {
-    runJs(
-      code = "fun main(args: Array<String>) {\n    println(args[0])\n    println(args[1])\n}",
-      args = "0 1",
-      contains = "main(['0', '1']);"
-    )
-  }
-
-  @Test
-  fun `command line string arguments js test`() {
-    runJs(
-      code = "fun main(args: Array<String>) {\n    println(args[0])\n    println(args[1])\n}",
-      args = "alex1 alex2",
-      contains = "main(['alex1', 'alex2']);"
-    )
-  }
-
 }

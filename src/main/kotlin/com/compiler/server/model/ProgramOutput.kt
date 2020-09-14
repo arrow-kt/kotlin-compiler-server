@@ -1,6 +1,5 @@
 package com.compiler.server.model
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import executors.ThrowableSerializer
@@ -34,20 +33,6 @@ data class ProgramOutput(
         } catch (e: Exception) {
           ExecutionResult(exception = e.toExceptionDescriptor())
         }
-      }
-    }
-  }
-
-  fun asJUnitExecutionResult(): JunitExecutionResult {
-    return when {
-      restriction != null -> JunitExecutionResult().apply { text = buildRestriction(restriction) }
-      exception != null -> JunitExecutionResult().also { it.exception = exception.toExceptionDescriptor() }
-      else -> {
-        val result = outputMapper.readValue(
-          standardOutput,
-          object : TypeReference<Map<String, List<TestDescription>>>() {}
-        )
-        JunitExecutionResult(result)
       }
     }
   }

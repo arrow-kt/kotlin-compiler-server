@@ -9,34 +9,9 @@ class BaseExecutorTest {
   @Autowired
   private lateinit var testRunner: TestProjectRunner
 
-  fun complete(
-    code: String,
-    line: Int,
-    character: Int,
-    completions: List<String>,
-    isJs: Boolean = false
-  ) = testRunner.complete(code, line, character, completions, isJs)
-
-  fun getCompletions(
-    code: String,
-    line: Int,
-    character: Int,
-    isJs: Boolean = false
-  ) = testRunner.getCompletions(code, line, character, isJs)
-
-  fun highlight(code: String) = testRunner.highlight(code)
-
-  fun highlightJS(code: String) = testRunner.highlightJS(code)
-
   fun run(code: String, contains: String, args: String = "") = testRunner.run(code, contains, args)
 
   fun run(code: List<String>, contains: String) = testRunner.multiRun(code, contains)
-
-  fun runJs(code: String, contains: String, args: String = "") =  testRunner.runJs(code, contains, args)
-
-  fun runJs(code: List<String>, contains: String) =  testRunner.multiRunJs(code, contains)
-
-  fun translateToJs(code: String) = testRunner.translateToJs(code)
 
   fun runWithException(code: String, contains: String) = testRunner.runWithException(code, contains)
 

@@ -14,8 +14,5 @@ data class Project(
 data class ProjectFile(val text: String = "", val name: String = "")
 
 enum class ProjectType(@JsonValue val id: String) {
-  JAVA("java"),
-  JUNIT("junit"),
-  CANVAS("canvas"),
-  JS("js")
+  JAVA("java")
 }
