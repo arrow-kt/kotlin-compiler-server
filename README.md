@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
 A REST server for compiling and executing Kotlin code.
-The server provides the API for [Kotlin Playground](https://github.com/arrow-kt/arrow-playground) component:
+The server provides the API for [Kotlin Playground](https://github.com/arrow-kt/arrow-playground) component (via `data-server` property):
 
 ```html
 <script
