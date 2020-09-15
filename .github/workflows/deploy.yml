@@ -37,5 +37,5 @@ jobs:
         aws s3 cp lambdaDistributions/playground-server-0.11.0.zip s3://$S3_BUCKET/kotlin-compiler-server/artifacts/release/playground-server.zip
         aws s3 cp lambdaDistributions/playground-server-1.0.0-SNAPSHOT.zip s3://$S3_BUCKET/kotlin-compiler-server/artifacts/snapshot/playground-server.zip
         # TODO: my-function and hard-coded version
-        aws lambda update-function-code --function-name "$FUNCTION_RELEASE" --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/artifacts/release/playground-server.zip
-        aws lambda update-function-code --function-name "$FUNCTION_SNAPSHOT" --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/artifacts/snapshot/playground-server.zip
+        # aws lambda update-function-code --function-name "$FUNCTION_RELEASE" --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/artifacts/release/playground-server.zip
+        # aws lambda update-function-code --function-name "$FUNCTION_SNAPSHOT" --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/artifacts/snapshot/playground-server.zip
