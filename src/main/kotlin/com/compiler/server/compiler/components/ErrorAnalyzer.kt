@@ -126,14 +126,6 @@ class ErrorAnalyzer(
     }
   }
 
-  private fun computeDependencies(module: ModuleDescriptorImpl, config: JsConfig): List<ModuleDescriptorImpl> {
-    val allDependencies = ArrayList<ModuleDescriptorImpl>()
-    allDependencies.add(module)
-    config.moduleDescriptors.mapTo(allDependencies) { it }
-    allDependencies.add(JsPlatformAnalyzerServices.builtIns.builtInsModule)
-    return allDependencies
-  }
-
   private fun errorsFrom(
     diagnostics: Collection<Diagnostic>
   ) = diagnostics.mapNotNull { diagnostic ->

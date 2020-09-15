@@ -6,9 +6,3 @@ data class VersionInfo(
   val latestStable: Boolean = true,
   val arrowVersion: String
 )
-
-data class ArrowVersionInfo(
-  val version: String,
-  val supportedKotlinVersions: List<String>,
-  val latestStable: Boolean = true
-)

@@ -1,17 +1,15 @@
 package com.compiler.server.utils
 
-fun escapeString(string: String): String? {
-  var resultString = string
-  if (resultString.isNotEmpty()) {
-    if (resultString.contains("<")) {
-      resultString = resultString.replace("<".toRegex(), "&lt;")
-    }
-    if (resultString.contains(">")) {
-      resultString = resultString.replace(">".toRegex(), "&gt;")
-    }
-    if (resultString.contains("&")) {
-      resultString = resultString.replace("&".toRegex(), "&amp;")
+fun escapeString(string: String): String? =
+  when {
+    string.isEmpty() -> string
+    else -> {
+      var resultString = string
+      when {
+          resultString.contains("<") -> resultString = resultString.replace("<", "&lt;")
+          resultString.contains(">") -> resultString = resultString.replace(">", "&gt;")
+          resultString.contains("&") -> resultString = resultString.replace("&", "&amp;")
+      }
+      resultString
     }
   }
-  return resultString
-}
