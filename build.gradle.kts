@@ -62,18 +62,9 @@ dependencies {
     annotationProcessor("org.springframework:spring-context-indexer")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.5.1")
-    implementation("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion")
     implementation("org.jetbrains.kotlin:ide-common-ij193:$kotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
-    implementation("org.jetbrains.kotlin:kotlin-plugin-ij193:$kotlinVersion") {
-        isTransitive = false
-    }
     implementation(project(":executors", configuration = "default"))
 
     testImplementation("junit:junit:4.12")

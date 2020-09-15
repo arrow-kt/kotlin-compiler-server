@@ -5,7 +5,6 @@ import com.compiler.server.compiler.components.KotlinCompiler
 import com.compiler.server.compiler.components.KotlinEnvironment
 import com.compiler.server.model.ExecutionResult
 import com.compiler.server.model.Project
-import com.compiler.server.model.bean.ArrowVersionInfo
 import com.compiler.server.model.bean.VersionInfo
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.springframework.stereotype.Component
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component
 class KotlinProjectExecutor(
         private val kotlinCompiler: KotlinCompiler,
         private val version: VersionInfo,
-        private val arrowVersion: ArrowVersionInfo,
         private val kotlinEnvironment: KotlinEnvironment
 ) {
 
@@ -26,8 +24,6 @@ class KotlinProjectExecutor(
   }
 
   fun getVersion() = version
-
-  fun getArrowVersion() = arrowVersion
 
   private fun getFilesFrom(project: Project, coreEnvironment: KotlinCoreEnvironment) = project.files.map {
     KotlinFile.from(coreEnvironment.project, it.name, it.text)

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = ["/api/compiler", "/api/**/compiler"])
+@RequestMapping(value = ["/api/compiler"])
 class CompilerRestController(private val kotlinProjectExecutor: KotlinProjectExecutor) {
   @PostMapping("/run")
   fun executeKotlinProjectEndpoint(@RequestBody project: Project) = kotlinProjectExecutor.run(project)

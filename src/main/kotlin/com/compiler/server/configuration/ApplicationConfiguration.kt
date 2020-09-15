@@ -1,6 +1,5 @@
 package com.compiler.server.configuration
 
-import com.compiler.server.model.bean.ArrowVersionInfo
 import com.compiler.server.model.bean.LibrariesFile
 import com.compiler.server.model.bean.VersionInfo
 import org.springframework.beans.factory.annotation.Value
@@ -28,12 +27,6 @@ class ApplicationConfiguration(
     version = version.substringBefore("-"),
     stdlibVersion = version,
     arrowVersion = arrowVersion
-  )
-
-  @Bean
-  fun arrowVersionInfo() = ArrowVersionInfo(
-    version = arrowVersion,
-    supportedKotlinVersions = listOf(version.substringBefore("-"))
   )
 
   @Bean
