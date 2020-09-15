@@ -24,6 +24,7 @@ jobs:
         AWS_CLOUDFRONT_ID: ${{ secrets.AWS_CLOUDFRONT_ID }}
         FUNCTION_RELEASE: ${{ secrets.FUNCTION_RELEASE }}
         FUNCTION_SNAPSHOT: ${{ secrets.FUNCTION_SNAPSHOT }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       run: |
         # TODO: move!
         mkdir -p versions/release
