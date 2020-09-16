@@ -60,7 +60,10 @@ dependencies {
     kotlinDependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
 
     annotationProcessor("org.springframework:spring-context-indexer")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude(group= "org.springframework.boot", module="spring-boot-starter-tomcat")
+    }
+    runtimeOnly("org.springframework.boot:spring-boot-starter-undertow")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.5.1")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion")
@@ -152,7 +155,7 @@ val buildLambda by tasks.creating(Zip::class) {
     from(policy)
     from(libJVMFolder) { into(libJVMFolder) }
     into("lib") {
-        from(configurations.compileClasspath) { exclude("tomcat-embed-*") }
+        from(configurations.runtimeClasspath)
     }
 }
 
