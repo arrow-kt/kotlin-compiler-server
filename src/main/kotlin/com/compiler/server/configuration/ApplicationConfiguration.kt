@@ -25,7 +25,6 @@ class ApplicationConfiguration(
   @Bean
   fun versionInfo() = VersionInfo(
     version = version.substringBefore("-"),
-    stdlibVersion = version,
     arrowVersion = arrowVersion
   )
 

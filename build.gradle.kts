@@ -62,9 +62,8 @@ dependencies {
     annotationProcessor("org.springframework:spring-context-indexer")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.5.1")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:ide-common-ij193:$kotlinVersion")
     implementation(project(":executors", configuration = "default"))
 
     testImplementation("junit:junit:4.12")
