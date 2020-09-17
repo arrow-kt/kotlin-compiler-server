@@ -25,7 +25,7 @@ grant {
   permission java.util.PropertyPermission "com.fasterxml.jackson.core.util.BufferRecyclers.trackReusableBuffers", "read";
   permission java.lang.RuntimePermission "accessDeclaredMembers";
   permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
-  permission java.lang.RuntimePermission" "modifyThread";
+  permission java.lang.RuntimePermission "modifyThread";
 
 };
 
