@@ -18,8 +18,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build project
-      run: ./gradlew build
     - name: Build lambda function
       id: versions
       run: |
