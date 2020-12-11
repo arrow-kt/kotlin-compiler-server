@@ -36,8 +36,8 @@ jobs:
         echo "::set-output name=kotlin-version-for-snapshot::$KOTLIN_VERSION_FOR_SNAPSHOT"
     - name: Build lambda functions
       run: |
-        ./gradlew buildLambda -DarrowVersion=$LATEST_PUBLISHED_RELEASE_VERSION -DkotlinVersion=$KOTLIN_VERSION_FOR_RELEASE
-        ./gradlew buildLambda -DarrowVersion=$LATEST_PUBLISHED_SNAPSHOT_VERSION -DkotlinVersion=$KOTLIN_VERSION_FOR_SNAPSHOT
+        ./gradlew buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-release-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-release }}
+        ./gradlew buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-snapshot-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-snapshot }}
     - name: Copy version files
       run: |
         # TODO: Use these versions instead of a call to the endpoint
