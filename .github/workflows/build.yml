@@ -33,7 +33,7 @@ jobs:
       run: |
         ./gradlew clean buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-release-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-release }}
         ./gradlew clean buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-snapshot-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-snapshot }}
-        unzip -l lambdaDistributions/playground-server-${{ steps.versions.outputs.kotlin-version-for-release }}.zip
+        unzip -l lambdaDistributions/playground-server-${{ steps.versions.outputs.latest-published-release-version }}.zip
         unzip -l lambdaDistributions/playground-server-${{ steps.versions.outputs.latest-published-snapshot-version }}.zip
     - name: Copy version files (dryrun)
       run: |
