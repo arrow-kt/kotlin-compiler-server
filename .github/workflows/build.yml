@@ -23,7 +23,7 @@ jobs:
       run: |
         LATEST_PUBLISHED_RELEASE_VERSION=$(curl -X GET https://api.bintray.com/packages/arrow-kt/arrow-kt/arrow/versions/_latest | jq -r '.name')
         LATEST_PUBLISHED_SNAPSHOT_VERSION=$(curl https://oss.jfrog.org/artifactory/oss-snapshot-local/io/arrow-kt/arrow-core/maven-metadata.xml | grep latest | cut -d'>' -f2 | cut -d'<' -f1)
-        KOTLIN_VERSION_FOR_RELEASE=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/${{ steps.versions.outputs.latest-published-release-version }}/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
+        KOTLIN_VERSION_FOR_RELEASE=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/$LATEST_PUBLISHED_RELEASE_VERSION/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
         KOTLIN_VERSION_FOR_SNAPSHOT=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/master/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
         echo "::set-output name=latest-published-release-version::$LATEST_PUBLISHED_RELEASE_VERSION"
         echo "::set-output name=latest-published-snapshot-version::$LATEST_PUBLISHED_SNAPSHOT_VERSION"
@@ -31,8 +31,8 @@ jobs:
         echo "::set-output name=kotlin-version-for-snapshot::$KOTLIN_VERSION_FOR_SNAPSHOT"
     - name: Build lambda functions
       run: |
-        ./gradlew buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-release-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-release }}
-        ./gradlew buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-snapshot-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-snapshot }}
+        ./gradlew clean buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-release-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-release }}
+        ./gradlew clean buildLambda -DarrowVersion=${{ steps.versions.outputs.latest-published-snapshot-version }} -DkotlinVersion=${{ steps.versions.outputs.kotlin-version-for-snapshot }}
         unzip -l lambdaDistributions/playground-server-${{ steps.versions.outputs.kotlin-version-for-release }}.zip
         unzip -l lambdaDistributions/playground-server-${{ steps.versions.outputs.latest-published-snapshot-version }}.zip
     - name: Copy version files (dryrun)
