@@ -19,7 +19,7 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' # because of workflow_dispatch allows to choose a branch
+    if: github.ref == 'refs/heads/arrow' # because of workflow_dispatch allows to choose a branch
 
     steps:
     - uses: actions/checkout@v2
