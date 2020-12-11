@@ -12,7 +12,7 @@ val kotlinDependency: Configuration by configurations.creating {
     isTransitive = false
 }
 val arrowDependency: Configuration by configurations.creating {
-    isTransitive = true
+    isTransitive = false
 }
 val libJVMFolder = kotlinVersion
 val propertyFile = "application.properties"
@@ -30,8 +30,8 @@ val copyArrowDependencies by tasks.creating(Copy::class) {
 plugins {
     id("org.springframework.boot") version "2.3.3.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    kotlin("jvm") version System.getProperty("kotlinVersion")
-    kotlin("plugin.spring") version System.getProperty("kotlinVersion")
+    kotlin("jvm") version "1.4.0-release-329"
+    kotlin("plugin.spring") version "1.4.0-release-329"
 }
 
 allprojects {
@@ -65,12 +65,12 @@ dependencies {
     }
     runtimeOnly("org.springframework.boot:spring-boot-starter-undertow")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.5.1")
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion")
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.4.0-release-329")
+    implementation("org.jetbrains.kotlin:kotlin-compiler:1.4.0-release-329")
     implementation(project(":executors", configuration = "default"))
 
     testImplementation("junit:junit:4.12")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.4.0-release-329")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }

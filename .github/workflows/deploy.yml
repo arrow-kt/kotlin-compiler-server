@@ -28,20 +28,21 @@ jobs:
       run: |
         LATEST_PUBLISHED_RELEASE_VERSION=$(curl -X GET https://api.bintray.com/packages/arrow-kt/arrow-kt/arrow/versions/_latest | jq -r '.name')
         LATEST_PUBLISHED_SNAPSHOT_VERSION=$(curl https://oss.jfrog.org/artifactory/oss-snapshot-local/io/arrow-kt/arrow-core/maven-metadata.xml | grep latest | cut -d'>' -f2 | cut -d'<' -f1)
-        ./gradlew clean buildLambda -DarrowVersion=$LATEST_PUBLISHED_RELEASE_VERSION
-        ./gradlew clean buildLambda -DarrowVersion=$LATEST_PUBLISHED_SNAPSHOT_VERSION
-        ls -ltrh lambdaDistributions
+        KOTLIN_VERSION_FOR_RELEASE=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/${{ steps.versions.outputs.latest-published-release-version }}/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
+        KOTLIN_VERSION_FOR_SNAPSHOT=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/master/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
+        ./gradlew clean buildLambda -DarrowVersion=$LATEST_PUBLISHED_RELEASE_VERSION -DkotlinVersion=$KOTLIN_VERSION_FOR_RELEASE
+        ./gradlew clean buildLambda -DarrowVersion=$LATEST_PUBLISHED_SNAPSHOT_VERSION -DkotlinVersion=$KOTLIN_VERSION_FOR_SNAPSHOT
         echo "::set-output name=latest-published-release-version::$LATEST_PUBLISHED_RELEASE_VERSION"
         echo "::set-output name=latest-published-snapshot-version::$LATEST_PUBLISHED_SNAPSHOT_VERSION"
+        echo "::set-output name=kotlin-version-for-release::$KOTLIN_VERSION_FOR_RELEASE"
+        echo "::set-output name=kotlin-version-for-snapshot::$KOTLIN_VERSION_FOR_SNAPSHOT"
     - name: Copy versions
       run: |
         # TODO: Use these versions instead of a call to the endpoint
-        KOTLIN_VERSION_FOR_RELEASE=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/${{ steps.versions.outputs.latest-published-release-version }}/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
-        KOTLIN_VERSION_FOR_SNAPSHOT=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/master/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
         mkdir -p versions/release
         mkdir versions/snapshot
-        echo "[{\"version\":\"${KOTLIN_VERSION_FOR_RELEASE}\",\"arrowVersion\":\"${{ steps.versions.outputs.latest-published-release-version }}\"}]" > versions/release/versions.json
-        echo "[{\"version\":\"${KOTLIN_VERSION_FOR_SNAPSHOT}\",\"arrowVersion\":\"${{ steps.versions.outputs.latest-published-snapshot-version }}\"}]" > versions/snapshot/versions.json
+        echo "[{\"version\":\"${{ steps.versions.outputs.kotlin-version-for-release }}\",\"arrowVersion\":\"${{ steps.versions.outputs.latest-published-release-version }}\"}]" > versions/release/versions.json
+        echo "[{\"version\":\"${{ steps.versions.outputs.kotlin-version-for-snapshot }}\",\"arrowVersion\":\"${{ steps.versions.outputs.latest-published-snapshot-version }}\"}]" > versions/snapshot/versions.json
         aws s3 cp versions s3://$S3_BUCKET/kotlin-compiler-server/versions --recursive
     - name: Copy lambdas
       run: |
