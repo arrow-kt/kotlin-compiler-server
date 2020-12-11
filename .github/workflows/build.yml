@@ -5,35 +5,7 @@ on: [pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build project
-      run: ./gradlew build
-    - name: Build lambda function
-      run: |
-        ./gradlew clean buildLambda -DarrowVersion=0.11.0 # TODO
-        ./gradlew clean buildLambda -DarrowVersion=1.0.0-SNAPSHOT # TODO
-        ls -ltrh lambdaDistributions
-    - name: Copy (dryrun)
-      env:
-        S3_BUCKET: ${{ secrets.S3_BUCKET }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_CLOUDFRONT_ID: ${{ secrets.AWS_CLOUDFRONT_ID }}
-      run: |
-        # TODO: move!
-        mkdir -p versions/release
-        mkdir versions/snapshot
-        curl -X GET https://w2wdwv32cd.execute-api.us-east-1.amazonaws.com/release/versions > versions/release/versions.json
-        curl -X GET https://5dgtjoaewk.execute-api.us-east-1.amazonaws.com/snapshot/versions > versions/snapshot/versions.json
-        aws s3 cp versions s3://$S3_BUCKET/kotlin-compiler-server/versions --recursive --dryrun
-        # TODO
-        aws s3 cp lambdaDistributions/playground-server-0.11.0.zip s3://$S3_BUCKET/kotlin-compiler-server/artifacts/release/playground-server.zip --dryrun
-        aws s3 cp lambdaDistributions/playground-server-1.0.0-SNAPSHOT.zip s3://$S3_BUCKET/kotlin-compiler-server/artifacts/snapshot/playground-server.zip --dryrun
-    - name: Update lambda functions (dryrun)
-      env:
+    env:
         S3_BUCKET: ${{ secrets.S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -41,6 +13,40 @@ jobs:
         FUNCTION_RELEASE: ${{ secrets.FUNCTION_RELEASE }}
         FUNCTION_SNAPSHOT: ${{ secrets.FUNCTION_SNAPSHOT }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build project
+      run: ./gradlew build
+    - name: Build lambda function
+      id: versions
+      run: |
+        LATEST_PUBLISHED_RELEASE_VERSION=$(curl -X GET https://api.bintray.com/packages/arrow-kt/arrow-kt/arrow/versions/_latest | jq -r '.name')
+        LATEST_PUBLISHED_SNAPSHOT_VERSION=$(curl https://oss.jfrog.org/artifactory/oss-snapshot-local/io/arrow-kt/arrow-core/maven-metadata.xml | grep latest | cut -d'>' -f2 | cut -d'<' -f1)
+        ./gradlew clean buildLambda -DarrowVersion=$LATEST_PUBLISHED_RELEASE_VERSION
+        ./gradlew clean buildLambda -DarrowVersion=$LATEST_PUBLISHED_SNAPSHOT_VERSION
+        ls -ltrh lambdaDistributions
+        echo "::set-output name=latest-published-release-version::$LATEST_PUBLISHED_RELEASE_VERSION"
+        echo "::set-output name=latest-published-snapshot-version::$LATEST_PUBLISHED_SNAPSHOT_VERSION"
+    - name: Copy versions (dryrun)
+      run: |
+        # TODO: Use these versions instead of a call to the endpoint
+        KOTLIN_VERSION_FOR_RELEASE=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/0.11.0/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
+        KOTLIN_VERSION_FOR_SNAPSHOT=$(curl https://raw.githubusercontent.com/arrow-kt/arrow/master/gradle.properties | grep -e "^KOTLIN_VERSION=" | cut -d= -f2)
+        mkdir -p versions/release
+        mkdir versions/snapshot
+        echo "[{\"version\":\"${KOTLIN_VERSION_FOR_RELEASE}\",\"arrowVersion\":\"${{ steps.versions.outputs.latest-published-release-version }}\"}]" > versions/release/versions.json
+        echo "[{\"version\":\"${KOTLIN_VERSION_FOR_SNAPSHOT}\",\"arrowVersion\":\"${{ steps.versions.outputs.latest-published-snapshot-version }}\"}]" > versions/snapshot/versions.json
+        cat versions/release/versions.json
+        cat versions/snapshot/versions.json
+        aws s3 cp versions s3://$S3_BUCKET/kotlin-compiler-server/versions --recursive --dryrun
+    - name: Copy lambdas (dryrun)
+      run: |
+        aws s3 cp lambdaDistributions/playground-server-${{ steps.versions.outputs.latest-published-release-version }}.zip s3://$S3_BUCKET/kotlin-compiler-server/artifacts/release/playground-server.zip --dryrun
+        aws s3 cp lambdaDistributions/playground-server-${{ steps.versions.outputs.latest-published-snapshot-version }}.zip s3://$S3_BUCKET/kotlin-compiler-server/artifacts/snapshot/playground-server.zip --dryrun
+    - name: Update lambda functions (dryrun)
       run: |
         aws lambda update-function-code --function-name "$FUNCTION_RELEASE" --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/artifacts/release/playground-server.zip --dry-run
         aws lambda update-function-code --function-name "$FUNCTION_SNAPSHOT" --s3-bucket $S3_BUCKET --s3-key kotlin-compiler-server/artifacts/snapshot/playground-server.zip --dry-run
