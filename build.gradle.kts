@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val kotlinVersion: String by System.getProperties()
 val arrowVersion: String by System.getProperties()
 val policy: String by System.getProperties()
+val LAMBDA_KOTLIN_VERSION: String by System.getProperties()
 
 group = "com.compiler.server"
 version = "$kotlinVersion-SNAPSHOT"
@@ -30,8 +31,8 @@ val copyArrowDependencies by tasks.creating(Copy::class) {
 plugins {
     id("org.springframework.boot") version "2.3.3.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    kotlin("jvm") version System.getProperty("kotlinVersion")
-    kotlin("plugin.spring") version System.getProperty("kotlinVersion")
+    kotlin("jvm") version System.getProperty("LAMBDA_KOTLIN_VERSION")
+    kotlin("plugin.spring") version System.getProperty("LAMBDA_KOTLIN_VERSION")
 }
 
 allprojects {
@@ -65,12 +66,12 @@ dependencies {
     }
     runtimeOnly("org.springframework.boot:spring-boot-starter-undertow")
     implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot2:1.5.1")
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion")
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:$LAMBDA_KOTLIN_VERSION")
+    implementation("org.jetbrains.kotlin:kotlin-compiler:$LAMBDA_KOTLIN_VERSION")
     implementation(project(":executors", configuration = "default"))
 
     testImplementation("junit:junit:4.12")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$LAMBDA_KOTLIN_VERSION")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }

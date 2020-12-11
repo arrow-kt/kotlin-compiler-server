@@ -28,7 +28,7 @@ $ ./gradlew bootRun
 Based on [aws-serverless-container](https://github.com/awslabs/aws-serverless-java-container).
 
 ```shell script
-$ ./gradlew buildLambda -DarrowVersion=<version>
+$ ./gradlew buildLambda -DarrowVersion=<version> -DkotlinVersion=<version>
 ```
 
 Getting `.zip` file from `lambdaDistributions/`.
