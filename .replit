@@ -5,11 +5,9 @@ run = "./gradlew bootRun"
 channel = "stable-24_05"
 
 [deployment]
-run = "export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))); ./gradlew bootRun"
+run = ["sh", "-c", "./gradlew bootRun"]
 deploymentTarget = "gce"
-build = [
-  "export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java)))); ./gradlew build -x test",
-]
+build = ["sh", "-c", "./gradlew build -x test"]
 
 [[ports]]
 localPort = 8080
