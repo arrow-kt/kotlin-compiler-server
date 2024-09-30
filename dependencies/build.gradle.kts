@@ -114,6 +114,13 @@ dependencies {
     kotlinDependency(libs.kotlinx.io.core)
     kotlinDependency(libs.kotlinx.serialization.json.jvm)
     kotlinDependency(libs.kotlinx.serialization.core.jvm)
+
+    kotlinDependency(libs.arrow.core)
+    kotlinDependency(libs.arrow.optics)
+    kotlinCompilerPluginDependency(libs.arrow.optics.ksp.plugin)
+    kotlinDependency(libs.arrow.fx.coroutines)
+    kotlinDependency(libs.arrow.atomic)
+
     kotlinCompilerPluginDependency(libs.kotlin.serialization.plugin)
     kotlinJsDependency(libs.kotlin.stdlib.js)
     kotlinJsDependency(libs.kotlin.dom.api.compat)
