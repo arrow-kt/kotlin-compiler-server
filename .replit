@@ -1,0 +1,12 @@
+modules = ["bash"]
+run = "./gradlew bootRun"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "./gradlew bootRun"]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
