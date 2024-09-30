@@ -18,10 +18,10 @@ plugins {
     alias(libs.plugins.kotlin.plugin.spring)
 }
 
-kotlin.jvmToolchain {
-    languageVersion.set(JavaLanguageVersion.of(17))
+//kotlin.jvmToolchain {
+    //languageVersion.set(JavaLanguageVersion.of(17))
     //vendor.set(JvmVendorSpec.AMAZON)
-}
+//}
 
 apply<NodeJsRootPlugin>()
 
