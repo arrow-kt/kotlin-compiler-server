@@ -20,6 +20,7 @@ jackson = "2.14.0"
 hamcrest = "2.2"
 compose = "1.6.0"
 gradle-develocity = "3.17.5"
+arrow = "1.2.4"
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
@@ -64,6 +65,11 @@ compose-material = { group = "org.jetbrains.compose.material", name = "material"
 compose-components-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "compose" }
 kotlin-serialization-plugin = {group= "org.jetbrains.kotlin", name="kotlin-serialization-compiler-plugin", version.ref = "kotlin"}
 gradle-develocity = {group = "com.gradle", name= "develocity-gradle-plugin", version.ref = "gradle-develocity"}
+arrow-core = {group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow"}
+arrow-fx-coroutines = {group = "io.arrow-kt", name = "arrow-fx-coroutines", version.ref = "arrow"}
+arrow-optics = {group = "io.arrow-kt", name = "arrow-optics", version.ref = "arrow"}
+arrow-optics-ksp-plugin = {group = "io.arrow-kt", name = "arrow-optics-ksp-plugin", version.ref = "arrow"}
+arrow-atomic = {group = "io.arrow-kt", name = "arrow-atomic", version.ref = "arrow"}
 
 [bundles]
 kotlin-stdlib = ["kotlin-stdlib", "kotlin-stdlib-jdk7", "kotlin-stdlib-jdk8"]
