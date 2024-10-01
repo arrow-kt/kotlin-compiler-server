@@ -5,6 +5,5 @@ run = "./gradlew bootRun"
 channel = "stable-24_05"
 
 [deployment]
-run = ["sh", "-c", "./gradlew build -x test"]
+run = ["sh", "-c", "./gradlew bootRun"]
 deploymentTarget = "gce"
-build = ["sh", "-c", "./gradlew bootRun"]
