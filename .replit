@@ -5,10 +5,6 @@ run = "./gradlew bootRun"
 channel = "stable-24_05"
 
 [deployment]
-run = ["sh", "-c", "./gradlew bootRun"]
+run = ["sh", "-c", "./gradlew build -x test"]
 deploymentTarget = "gce"
-build = ["sh", "-c", "./gradlew javaToolChains build -x test"]
-
-[[ports]]
-localPort = 8080
-externalPort = 80
+build = ["sh", "-c", "./gradlew bootRun"]
