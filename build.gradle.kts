@@ -16,6 +16,12 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.spring)
+    application
+}
+
+application {
+    applicationName = "kotlin-compiler-server"
+    mainClass.set("com.compiler.server.CompilerApplicationKt")
 }
 
 kotlin.jvmToolchain {
