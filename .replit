@@ -12,3 +12,7 @@ run = [
 ]
 deploymentTarget = "gce"
 build = ["sh", "-c", "./gradlew distZip --no-daemon"]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
