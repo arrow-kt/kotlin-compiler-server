@@ -8,10 +8,10 @@ channel = "stable-24_05"
 run = [
   "sh",
   "-c",
-  "unzip -o build/distributions/kotlin-compiler-server-2.0.20-SNAPSHOT.zip && ./kotlin-compiler-server-2.0.20-SNAPSHOT/bin/kotlin-compiler-server",
+  "tar -xvf build/distributions/kotlin-compiler-server-boot-2.0.20-SNAPSHOT.tar && ./kotlin-compiler-server-boot-2.0.20-SNAPSHOT/bin/kotlin-compiler-server",
 ]
 deploymentTarget = "gce"
-build = ["sh", "-c", "./gradlew distZip --no-daemon"]
+build = ["sh", "-c", "./gradlew bootDistTar --no-daemon"]
 
 [[ports]]
 localPort = 8080
