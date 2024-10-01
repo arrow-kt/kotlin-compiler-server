@@ -7,7 +7,7 @@ channel = "stable-24_05"
 [deployment]
 run = ["sh", "-c", "./gradlew bootRun"]
 deploymentTarget = "gce"
-build = ["sh", "-c", "./gradlew build -x test"]
+build = ["sh", "-c", "./gradlew javaToolChains build -x test"]
 
 [[ports]]
 localPort = 8080
