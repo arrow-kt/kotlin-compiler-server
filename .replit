@@ -11,4 +11,4 @@ run = [
   "unzip -o build/distributions/kotlin-compiler-server-2.0.20-SNAPSHOT.zip && ./kotlin-compiler-server-2.0.20-SNAPSHOT/bin/kotlin-compiler-server",
 ]
 deploymentTarget = "gce"
-build = ["sh", "-c", "./gradlew distZip"]
+build = ["sh", "-c", "./gradlew distZip --no-daemon"]
